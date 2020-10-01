@@ -1,0 +1,90 @@
+//code by vikash
+#include<bits/stdc++.h>
+using namespace std;
+struct Node{
+    int data;
+    Node* next;
+};
+//print the list
+void print_ll( Node* first)
+{   
+    Node* temp = first;
+    while(temp->next!=first)
+    {
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+    cout<<temp->data;
+
+}
+// add a node with value =x
+void add_node(Node** head,int x)
+{
+    Node* new_node = new Node();
+    new_node->data=x;
+    if(*head==NULL)      //first node or head node to be added
+    {
+        *head = new_node;
+        (*head)->next=*head; 
+    }
+    else{                   //head node already exist
+        Node* prev_node=*head;
+        Node *temp=*head;
+        temp = temp->next; 
+        while(temp!=*head)
+        {
+            prev_node=temp;
+            temp= temp->next;
+        }
+        new_node->next=*head;  
+        prev_node->next = new_node;
+    }
+    return;
+}
+// delete a node with value =x
+void delete_node(Node** head,int x)
+{
+    Node* temp = *head;
+    Node* prev_node = nullptr;
+    if(*head==NULL) //empty list
+    return;
+    if(temp->data==x && temp->next==*head) // only one element
+    {
+        *head=NULL;
+        return;
+    }
+    if(temp->data==x) // head id to be deleted and more then one element
+    {   prev_node= *head;
+        while(prev_node->next!=temp)
+        prev_node = prev_node->next;
+
+        prev_node->next=temp->next;
+        *head = prev_node->next;
+       
+        
+    }
+    else                // other then head element is deleted 
+    {                               
+        while(temp->data!=x)
+        {   prev_node= temp;
+            temp=temp->next;
+        }
+        prev_node->next= temp->next;
+    }
+
+}
+int main(){
+
+    Node* head =NULL;
+    add_node(&head,2);
+    add_node(&head,4);
+    add_node(&head,6);
+    add_node(&head,8);
+    add_node(&head,10);
+    add_node(&head,12);
+    add_node(&head,14);
+    delete_node(&head,2);
+    delete_node(&head,14);
+    print_ll(head);
+    return 0;
+}
